@@ -5224,6 +5224,7 @@ var $elm$browser$Browser$application = _Browser_application;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$Home = 0;
+var $author$project$Main$NotFound = 3;
 var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
 		return {M: frag, Q: params, I: unvisited, B: value, T: visited};
@@ -5971,14 +5972,27 @@ var $elm$core$Maybe$withDefault = F2(
 		}
 	});
 var $author$project$Main$parseRoute = function (url) {
-	var fragmentPath = A2($elm$core$Maybe$withDefault, '', url.a$);
-	var fakePath = _Utils_update(
-		url,
-		{a$: $elm$core$Maybe$Nothing, cI: '/' + fragmentPath});
-	return A2(
-		$elm$core$Maybe$withDefault,
-		0,
-		A2($elm$url$Url$Parser$parse, $author$project$Main$routeParser, fakePath));
+	var _v0 = url.a$;
+	if (_v0.$ === 1) {
+		return 0;
+	} else {
+		switch (_v0.a) {
+			case '':
+				return 0;
+			case '/':
+				return 0;
+			default:
+				var fragment = _v0.a;
+				var cleanFragment = A2($elm$core$String$startsWith, '/', fragment) ? fragment : ('/' + fragment);
+				var fakeUrl = _Utils_update(
+					url,
+					{a$: $elm$core$Maybe$Nothing, cI: cleanFragment});
+				return A2(
+					$elm$core$Maybe$withDefault,
+					3,
+					A2($elm$url$Url$Parser$parse, $author$project$Main$routeParser, fakeUrl));
+		}
+	}
 };
 var $author$project$Main$init = F3(
 	function (_v0, url, key) {

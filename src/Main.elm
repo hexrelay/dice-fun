@@ -52,15 +52,30 @@ init _ url key =
 parseRoute : Url -> Route
 parseRoute url =
     -- Hash routing: parse the fragment as if it were the path
-    let
-        fragmentPath =
-            url.fragment |> Maybe.withDefault ""
+    case url.fragment of
+        Nothing ->
+            Home
 
-        fakePath =
-            { url | path = "/" ++ fragmentPath, fragment = Nothing }
-    in
-    Parser.parse routeParser fakePath
-        |> Maybe.withDefault Home
+        Just "" ->
+            Home
+
+        Just "/" ->
+            Home
+
+        Just fragment ->
+            let
+                -- Remove leading slash if present, then add exactly one
+                cleanFragment =
+                    if String.startsWith "/" fragment then
+                        fragment
+                    else
+                        "/" ++ fragment
+
+                fakeUrl =
+                    { url | path = cleanFragment, fragment = Nothing }
+            in
+            Parser.parse routeParser fakeUrl
+                |> Maybe.withDefault NotFound
 
 
 routeParser : Parser (Route -> a) a
