@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Browser
+import Browser.Hash as Hash
 import Browser.Navigation as Nav
 import Element exposing (..)
 import Element.Background as Background
@@ -13,7 +14,7 @@ import Url.Parser as Parser exposing (Parser, oneOf, s, top)
 
 main : Program () Model Msg
 main =
-    Browser.application
+    Hash.application
         { init = init
         , view = view
         , update = update
@@ -51,31 +52,8 @@ init _ url key =
 
 parseRoute : Url -> Route
 parseRoute url =
-    -- Hash routing: parse the fragment as if it were the path
-    case url.fragment of
-        Nothing ->
-            Home
-
-        Just "" ->
-            Home
-
-        Just "/" ->
-            Home
-
-        Just fragment ->
-            let
-                -- Remove leading slash if present, then add exactly one
-                cleanFragment =
-                    if String.startsWith "/" fragment then
-                        fragment
-                    else
-                        "/" ++ fragment
-
-                fakeUrl =
-                    { url | path = cleanFragment, fragment = Nothing }
-            in
-            Parser.parse routeParser fakeUrl
-                |> Maybe.withDefault NotFound
+    Parser.parse routeParser url
+        |> Maybe.withDefault Home
 
 
 routeParser : Parser (Route -> a) a
@@ -148,9 +126,9 @@ header =
 nav : Element Msg
 nav =
     row [ spacing 20 ]
-        [ navLink "Home" "#/"
-        , navLink "Roller" "#/roller"
-        , navLink "Probability" "#/probability"
+        [ navLink "Home" "/"
+        , navLink "Roller" "/roller"
+        , navLink "Probability" "/probability"
         ]
 
 
@@ -197,7 +175,7 @@ rollerView : Element Msg
 rollerView =
     column [ spacing 20 ]
         [ el [ Font.size 24, Font.bold ] (text "Dice Roller")
-        , paragraph [] [ text "Coming soon: roll some dice!" ]
+        , paragraph [] [ text "Roll the bones! Click to roll." ]
         ]
 
 
@@ -205,5 +183,5 @@ probabilityView : Element Msg
 probabilityView =
     column [ spacing 20 ]
         [ el [ Font.size 24, Font.bold ] (text "Probability Visualizer")
-        , paragraph [] [ text "Coming soon: explore probability distributions." ]
+        , paragraph [] [ text "See the math behind the dice." ]
         ]
