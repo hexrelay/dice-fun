@@ -12338,9 +12338,9 @@ var $author$project$Main$nav = A2(
 		]),
 	_List_fromArray(
 		[
-			A2($author$project$Main$navLink, 'Home', '/'),
-			A2($author$project$Main$navLink, 'Roller', '/roller'),
-			A2($author$project$Main$navLink, 'Probability', '/probability')
+			A2($author$project$Main$navLink, 'Home', '#/'),
+			A2($author$project$Main$navLink, 'Roller', '#/roller'),
+			A2($author$project$Main$navLink, 'Probability', '#/probability')
 		]));
 var $mdgriffith$elm_ui$Element$Font$sansSerif = $mdgriffith$elm_ui$Internal$Model$SansSerif;
 var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;

@@ -126,9 +126,9 @@ header =
 nav : Element Msg
 nav =
     row [ spacing 20 ]
-        [ navLink "Home" "/"
-        , navLink "Roller" "/roller"
-        , navLink "Probability" "/probability"
+        [ navLink "Home" "#/"
+        , navLink "Roller" "#/roller"
+        , navLink "Probability" "#/probability"
         ]
 
 
